@@ -22,3 +22,41 @@ Emotia blends AI understanding with authentic expression, making conversations r
 ---
 
 ## 🏗️ Project Structure
+
+/emotia │ 
+├── index.html                     # Landing / Home page │
+├── /auth 
+│  ├── login.html                 # Login page
+│  ├── sign-up.html               # Signup/registration page 
+│   
+Firebase auth │ 
+├── /dashboard 
+│   ├── dashboard.html             # Main dashboard view
+│   ├── dashboard.css              # Dashboard styling 
+│   └── dashboard.js               # Dashboard interactions 
+├── /profile 
+│   ├── profile.html               # User profile page 
+│   ├── profile.css                # Profile styling 
+│   └── profile.js                 # Edit profile, data updates
+│ ├── /settings 
+│   ├── settings.html              # Settings page (preferences, privacy, etc.) 
+│   ├── settings.css               # Settings UI 
+│   └── settings.js                # Toggle options, theme, account controls 
+│ ├── /chat 
+│   ├── chats.html                 # Chat interface
+│   ├── chats.css                  # Chat styling 
+│   └── chats.js                   # Chat engine, message sending, AYA-X integration 
+│ ├── /firebase 
+│   └── firebase-config.js         # Firebase initialization & config 
+│ ├── /engine 
+│   ├── ai-engine.js               # Core AI logic (AYA-X link) │   ├── emoji-engine.js            # Emotion and emoji recognition │   ├── utils.js                   # Shared utility functions │   └── aya-x-api.js               # AYA-X API connection layer │ ├── /assets                        # Logos, icons, media, etc. │ ├── README.md                      # Project documentation └── LICENSE                        # Project license (optional)
+
+---
+
+### 🧭 Notes
+- Every section (auth, chat, dashboard, etc.) is self-contained, following modular architecture.  
+- Use **relative paths** in all HTML imports, like:  
+  ```html
+  <link rel="stylesheet" href="../profile/profile.css">
+  <script src="../engine/ai-engine.js" defer></script>
+  
