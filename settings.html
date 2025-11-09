@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Onet Emotia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <div class="settings-container">
+    <div class="settings-header">
+      <div class="user-info">
+        <img id="user-avatar" src="../assets/default-avatar.png" alt="User Avatar" />
+        <div>
+          <h2 id="user-name">User Name</h2>
+          <p id="user-email">user@email.com</p>
+        </div>
+      </div>
+
+      <div class="theme-switch">
+        <label>
+          <input type="checkbox" id="theme-toggle" />
+          Dark Mode
+        </label>
+      </div>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="privacy">Privacy</button>
+      <button class="tab-btn" data-tab="notifications">Notifications</button>
+      <button class="tab-btn" data-tab="security">Security</button>
+    </div>
+
+    <!-- ===== PRIVACY TAB ===== -->
+    <div id="privacy" class="tab-content active">
+      <h3>Privacy Settings</h3>
+
+      <label>Who can message you?</label>
+      <select id="message-privacy">
+        <option value="everyone">Everyone</option>
+        <option value="followers">Followers Only</option>
+        <option value="noone">No one</option>
+      </select>
+
+      <label>Who can follow you?</label>
+      <select id="follow-privacy">
+        <option value="everyone">Everyone</option>
+        <option value="friends">Friends Only</option>
+      </select>
+
+      <label>Profile Visibility</label>
+      <select id="profile-visibility">
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+    </div>
+
+    <!-- ===== NOTIFICATIONS TAB ===== -->
+    <div id="notifications" class="tab-content">
+      <h3>Notification Preferences</h3>
+      <label><input type="checkbox" id="notif-email" checked /> Email Alerts</label>
+      <label><input type="checkbox" id="notif-inapp" checked /> In-App Notifications</label>
+    </div>
+
+    <!-- ===== SECURITY TAB ===== -->
+    <div id="security" class="tab-content">
+      <h3>Security & Login</h3>
+      <p>Manage your security history and password.</p>
+
+      <ul id="security-events" class="security-list">
+        <li>Loading security history...</li>
+      </ul>
+
+      <button id="changePasswordBtn">Reset Password</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <script type="module" src="settings.js"></script>
+</body>
+</html>

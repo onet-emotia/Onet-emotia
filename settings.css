@@ -1,0 +1,181 @@
+/* ========== ROOT THEME ========== */
+:root {
+  --bg-light: #f7f8fa;
+  --bg-dark: #1a1a1a;
+  --text-dark: #222;
+  --text-light: #fff;
+  --card-bg: #fff;
+  --border-color: #e0e0e0;
+  --primary-gradient: linear-gradient(135deg, #ff3d3d, #ffd700);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* ========== CONTAINER ========== */
+.settings-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s;
+}
+
+body.dark .settings-container {
+  background: #2a2a2a;
+}
+
+/* ========== HEADER ========== */
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info h2 {
+  margin: 0;
+  font-size: 1.3em;
+}
+
+/* ========== NAV TABS ========== */
+.tab-nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+  flex: 1;
+  text-align: center;
+  background: none;
+  border: none;
+  font-weight: 600;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-btn.active {
+  color: #ff3d3d;
+  border-bottom: 3px solid #ff3d3d;
+}
+
+/* ========== TAB CONTENT ========== */
+.tab-content {
+  display: none;
+  padding: 15px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ========== FORM ELEMENTS ========== */
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 500;
+}
+
+select,
+input[type="checkbox"] {
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+select:focus,
+input[type="checkbox"]:focus {
+  border-color: #ff3d3d;
+  outline: none;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ========== BUTTONS ========== */
+button {
+  background: var(--primary-gradient);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 61, 61, 0.4);
+}
+
+/* ========== SECURITY EVENTS ========== */
+#security-events {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+#security-events li {
+  padding: 10px 15px;
+  background: rgba(255, 215, 0, 0.08);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 600px) {
+  .settings-container {
+    padding: 15px;
+    margin: 20px;
+  }
+
+  .user-info img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tab-btn {
+    font-size: 0.9em;
+  }
+}

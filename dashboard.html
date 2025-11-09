@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Emotia Dashboard — Onet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body data-theme="theme-2">
+
+  <!-- animated background -->
+  <div class="bg-anim" aria-hidden="true"></div>
+
+  <!-- top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div id="topAvatar" class="avatar">O</div>
+      <div>
+        <div id="topUsername" class="name">—</div>
+        <div class="muted" id="topUserSub">Your Emotia</div>
+      </div>
+    </div>
+
+    <div class="nav-flex">
+      <div class="search" title="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="globalSearch" placeholder="Search users or posts (email or name)..." />
+      </div>
+
+      <div class="nav-actions">
+        <button id="openFollowPanelBtn" class="icon-btn" title="Following">👥</button>
+        <button id="openFeelingBtn" class="icon-btn" title="How I feel">😊</button>
+        <button id="messengerBtn" class="icon-btn" title="Messenger">💬</button>
+        <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+        <button id="logoutBtn" class="btn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- left panel -->
+  <aside id="leftPanel" class="leftSlide panel" aria-hidden="true">
+    <div class="panel-head">
+      <strong>Following</strong>
+      <button id="closeLeft" class="btn ghost small">Close</button>
+    </div>
+    <div class="panel-body">
+      <input id="followSearch" placeholder="Search following..." class="input-sm" />
+      <div id="followList" class="list-scroll"></div>
+    </div>
+  </aside>
+
+  <!-- settings drawer (clean + profile section) -->
+  <aside id="settingsDrawer" class="settings-drawer panel" aria-hidden="true">
+    <div class="panel-head">
+      <strong>Settings</strong>
+      <button id="closeSettingsBtn" class="btn ghost small">✖</button>
+    </div>
+
+    <div class="profile-section">
+      <div id="settingsAvatarPreview" class="profile-avatar">👤</div>
+      <h3 id="settingsName">Your Name</h3>
+      <p id="settingsEmail">you@example.com</p>
+      <label for="avatarUpload" class="upload-btn">Change Picture</label>
+      <input type="file" id="avatarUpload" accept="image/*" />
+    </div>
+
+    <div class="panel-body">
+      <div class="muted">Theme</div>
+      <div class="theme-grid">
+        <button class="themeBtn btn" data-theme="theme-1">1</button>
+        <button class="themeBtn btn" data-theme="theme-2">2</button>
+        <button class="themeBtn btn" data-theme="theme-3">3</button>
+        <button class="themeBtn btn" data-theme="theme-4">4</button>
+        <button class="themeBtn btn" data-theme="theme-5">5</button>
+      </div>
+
+      <hr/>
+      <div class="muted">Behavior</div>
+      <label><input type="checkbox" id="feelingOnLogin"> Show feeling popup on login</label>
+      <label><input type="checkbox" id="leftPanelAsModal"> Show follow panel as modal</label>
+      <label><input type="checkbox" id="onlyShowFollowingActive"> Show only active people</label>
+    </div>
+  </aside>
+
+  <!-- settings modal (optional fallback) -->
+  <div id="settingsModal" class="settings-modal" aria-hidden="true">
+    <div class="modal-card panel">
+      <div class="panel-head">
+        <strong>Settings</strong>
+        <button id="closeSettingsModal" class="btn ghost">Close</button>
+      </div>
+      <div id="settingsModalContent"></div>
+    </div>
+  </div>
+
+  <!-- feeling popup -->
+  <div id="feelingBox" class="feeling-box panel" aria-hidden="true">
+    <div class="panel-head">
+      <strong>How are you feeling?</strong>
+      <small class="muted">Share with followers</small>
+    </div>
+    <div id="emojiGrid" class="emoji-grid"></div>
+    <div style="text-align:right; margin-top:10px;">
+      <button id="closeFeeling" class="btn ghost">Close</button>
+    </div>
+  </div>
+
+  <!-- post modal -->
+  <div id="postModal" class="composer-modal" aria-hidden="true">
+    <div class="composer-card panel">
+      <div class="panel-head">
+        <strong>Share something</strong>
+        <button id="closePostModal" class="btn ghost">Close</button>
+      </div>
+
+      <div class="panel-body">
+        <div class="profile-mini">
+          <div id="composerAvatar" class="avatar small">O</div>
+          <div>
+            <div id="composerName" class="name">—</div>
+            <div id="composerMood" class="muted">—</div>
+          </div>
+        </div>
+
+        <textarea id="postText" placeholder="Share a feeling or thought..." rows="5"></textarea>
+        <div class="row" style="margin-top:10px;">
+          <input id="postImage" type="file" accept="image/*" />
+          <button id="postBtn" class="btn">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- main content -->
+  <main class="wrap" role="main">
+    <aside class="panel left">
+      <div class="profile-mini">
+        <div id="leftAvatar" class="avatar">O</div>
+        <div>
+          <div id="leftName" class="name">—</div>
+          <div id="leftSub" class="muted">Active now</div>
+        </div>
+      </div>
+
+      <div class="left-actions">
+        <button id="openPostButton" class="btn" style="width:100%;">New post</button>
+        <button id="openFollowPanel" class="btn ghost" style="width:100%; margin-top:8px;">Following ↔</button>
+      </div>
+
+      <hr/>
+      <div class="muted">Following</div>
+      <div id="miniFollowing" class="mini-list"></div>
+    </aside>
+
+    <section class="panel center" id="centerPanel">
+      <div class="header-row">
+        <div style="font-weight:800">Home</div>
+        <div class="muted">Sort:
+          <select id="sortSelect" class="input-sm">
+            <option value="new">Newest</option>
+            <option value="old">Oldest</option>
+          </select>
+        </div>
+      </div>
+      <div id="feed" class="feed"></div>
+    </section>
+
+    <aside class="panel right">
+      <div class="panel-head">
+        <strong>Mood Summary</strong>
+        <button id="toggleShowFollowingActive" class="btn ghost small">Active</button>
+      </div>
+      <div id="moodSummary" style="margin-top:10px;"></div>
+      <hr/>
+      <div class="muted">Active followers</div>
+      <div id="activeList" class="list-scroll"></div>
+    </aside>
+  </main>
+
+  <!-- chat modal -->
+  <div id="chatModal" class="chat-modal" aria-hidden="true">
+    <div class="chat-card panel">
+      <div class="panel-head">
+        <strong id="chatWith">Chats</strong>
+        <button id="closeChat" class="btn ghost">Close</button>
+      </div>
+      <div class="chat-content">
+        <div id="chatUserList" class="list-scroll"></div>
+        <div id="messages" class="messages"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="Write a message..." />
+          <button id="sendMsg" class="btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="alerts" aria-live="polite"></div>
+
+  <script type="module" src="./dashboard.js"></script>
+  <script type="module" src="./aya-x-learning.js"></script>
+</body>
+</html>

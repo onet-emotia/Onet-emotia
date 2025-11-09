@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — Onet Emotia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <!-- ===== COVER SECTION ===== -->
+    <div class="cover-section">
+      <img id="cover-photo" src="../assets/default-cover.jpg" alt="Cover" />
+      <button id="change-cover-btn" class="upload-btn">Change Cover</button>
+      <input type="file" id="cover-input" accept="image/*" hidden />
+    </div>
+
+    <!-- ===== PROFILE INFO ===== -->
+    <div class="profile-info">
+  <div class="avatar-wrapper">
+    <img id="profile-pic" src="../assets/default-avatar.png" alt="Profile Picture" />
+    <button id="change-profile-btn" class="upload-btn small">Change</button>
+    <input type="file" id="profile-input" accept="image/*" hidden />
+  </div>
+
+  <h2 id="display-name">User Name</h2>
+  <p id="user-bio">Hey there! I’m using Onet Emotia 💬</p>
+
+  <div class="stats">
+    <div>
+      <span id="followers-count">0</span>
+      <p>Followers</p>
+    </div>
+    <div>
+      <span id="following-count">0</span>
+      <p>Following</p>
+    </div>
+  </div>
+      <!-- Followers / Following Modal -->
+<div id="connections-modal" class="modal">
+  <div class="modal-content">
+    <h2 id="connections-title">Connections</h2>
+    <div id="connections-list"></div>
+    <button id="close-connections-btn" class="save-btn">Close</button>
+  </div>
+</div>
+
+  <button id="follow-btn" class="save-btn">Follow</button>
+  <button id="edit-profile-btn" class="save-btn">Edit Profile</button>
+</div>
+
+      <button id="edit-profile-btn" class="save-btn">Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- ===== EDIT MODAL ===== -->
+  <div class="modal" id="edit-modal">
+    <div class="modal-content">
+      <h3>Edit Profile</h3>
+      <textarea id="bio-input" placeholder="Write your bio..."></textarea>
+      <input id="location-input" type="text" placeholder="Add your location" />
+      <div class="modal-actions">
+        <button id="cancel-edit-btn" class="cancel-btn">Cancel</button>
+        <button id="save-profile-btn" class="save-btn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="profile.js"></script>
+</body>
+</html>

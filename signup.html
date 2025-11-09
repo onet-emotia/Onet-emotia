@@ -1,0 +1,299 @@
+<!-- save as: signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Onet Emotia — Sign Up</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --glass: rgba(255,255,255,0.06);
+      --accent: #00aaff;
+      --success: #2ecc71;
+      --danger: #ff6b6b;
+      --bg-start: linear-gradient(135deg,#a18cd1 0%, #fbc2eb 50%, #fad0c4 100%);
+      --ui-radius: 12px;
+      --card-bg: rgba(255,255,255,0.06);
+      --text: #eaf2ff;
+      --muted: rgba(255,255,255,0.7);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui;
+      color: var(--text);
+      background: var(--bg-start);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .floatie {
+      position: fixed; pointer-events:none; z-index:0;
+      filter: blur(36px); opacity:0.14; mix-blend-mode: screen;
+      animation: floaty 14s ease-in-out infinite;
+    }
+    .floatie.one { width:420px;height:420px;border-radius:40%;left:-120px;top:120px;background: radial-gradient(circle,#00aaff,#6f5cff); }
+    .floatie.two { width:320px;height:320px;border-radius:50%;right:-140px;top:40vh;background: radial-gradient(circle,#ff6b9a,#ffb65b);animation-duration:18s;}
+    .floatie.three { width:220px;height:220px;border-radius:50%;left:40%;bottom:-60px;background: radial-gradient(circle,#7ad0ff,#b68bff);animation-duration:20s;}
+    @keyframes floaty {0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+
+    .wrap {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 980px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 28px;
+      align-items: center;
+    }
+    @media (max-width:920px){ .wrap{ grid-template-columns:1fr; padding:20px; } }
+
+    .leftPanel {
+      color:#071020;
+      padding:28px;
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.86));
+      box-shadow: 0 20px 60px rgba(2,30,60,0.08);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .brand {
+      display:flex; align-items:center; gap:12px; margin-bottom:18px;
+    }
+    .brand .logo {
+      width:52px;height:52px;border-radius:12px;
+      background:linear-gradient(90deg,#00aaff,#6f5cff);
+      display:flex;align-items:center;justify-content:center;
+      color:white;font-weight:800;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .brand h1{ font-size:20px;margin:0;color:#061226; }
+    .brand p{ margin:0;color:#334;opacity:0.9;font-size:13px; }
+
+    .lead{ font-size:14px;color:#123;margin-bottom:12px;opacity:0.95; }
+
+    .card {
+      padding:22px;border-radius:14px;
+      background: rgba(4,6,12,0.08);backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    .title{ font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .subtitle{ font-size:13px;color:var(--muted);margin-bottom:8px; }
+
+    .input {
+      display:flex; gap:8px; align-items:center;
+      background: rgba(255,255,255,0.04);
+      padding:10px;border-radius:10px;
+      border:1px solid var(--glass-border);
+    }
+    .input input {
+      background:transparent;border:0;outline:0;
+      color:var(--text);width:100%;font-size:14px;
+    }
+
+    .btn {
+      border:0;cursor:pointer;padding:10px 12px;border-radius:10px;
+      font-weight:700;background:linear-gradient(90deg,#00aaff,#6f5cff);
+      color:#001523;box-shadow:0 8px 28px rgba(40,90,200,0.12);
+    }
+    .btn.google{ display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#fff,#f2f2f2);color:#222; }
+    .btn.fb{ background:linear-gradient(90deg,#1877f2,#0b66d6);color:white;display:flex;gap:8px;align-items:center; }
+
+    .alert {
+      position:fixed; left:50%; transform:translateX(-50%);
+      top:22px; z-index:120; min-width:280px;
+      padding:12px 16px; border-radius:10px;
+      display:flex;gap:12px;align-items:center;
+      box-shadow:0 12px 40px rgba(0,0,0,0.2);
+      color:white;font-weight:600;
+      opacity:0;pointer-events:none;transition:all .28s;
+    }
+    .alert.show{ opacity:1;pointer-events:auto; }
+    .alert.success{ background: linear-gradient(90deg,var(--success),#27b86a); }
+    .alert.error{ background: linear-gradient(90deg,var(--danger),#ff4b4b); }
+  </style>
+</head>
+<body>
+  <div class="floatie one"></div>
+  <div class="floatie two"></div>
+  <div class="floatie three"></div>
+
+  <div id="alertBox" class="alert" aria-live="polite" role="status"></div>
+
+  <main class="wrap">
+    <section class="leftPanel">
+      <div class="brand">
+        <div class="logo">O</div>
+        <div>
+          <h1>Onet Emotia</h1>
+          <p class="muted">Feel the network — express emotions, connect deeply.</p>
+        </div>
+      </div>
+      <p class="lead">Create your Onet Emotia account — your gateway to emotional communication, creativity, and connection.</p>
+      <ul style="margin-top:18px;color:#123;list-style:none;padding-left:0;">
+        <li style="margin-bottom:10px;"><strong>Smart onboarding</strong> — sign up via Google, Facebook, or email</li>
+        <li style="margin-bottom:10px;"><strong>Privacy control</strong> — manage how you appear once inside</li>
+        <li><strong>Next-gen vibe</strong> — clean futuristic UI that adapts later to your theme</li>
+      </ul>
+      <div style="margin-top:18px;" class="muted">Already have an account? <span id="toLogin" class="btn" style="text-decoration:underline;cursor:pointer;">Sign in</span></div>
+    </section>
+
+    <section class="card">
+      <div>
+        <div class="title">Create your account</div>
+        <div class="subtitle">Join Emotia and start connecting today</div>
+      </div>
+
+      <div class="input"><input id="name" type="text" placeholder="Full Name" autocomplete="name" /></div>
+      <div class="input"><input id="email" type="email" placeholder="Email" autocomplete="email" /></div>
+      <div class="input"><input id="password" type="password" placeholder="Password (min 6 characters)" autocomplete="new-password" /></div>
+
+      <button id="signupBtn" class="btn">Create Account</button>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-top:6px;">
+        <div style="height:1px;background:rgba(255,255,255,0.06);flex:1;"></div>
+        <div class="muted" style="font-size:12px;">or</div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);flex:1;"></div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:6px;">
+        <button id="googleBtn" class="btn google">Continue with Google</button>
+        <button id="fbBtn" class="btn fb">Facebook</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword,
+      signInWithPopup,
+      GoogleAuthProvider,
+      FacebookAuthProvider 
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhB9pqVXV4L59T1OggGMz75ExohoU255g",
+      authDomain: "onet-emotia.firebaseapp.com",
+      projectId: "onet-emotia",
+      storageBucket: "onet-emotia.firebasestorage.app",
+      messagingSenderId: "887367384521",
+      appId: "1:887367384521:web:6312bb8d0d51f0da8e7c18",
+      measurementId: "G-VX4KB7LCTR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const alertBox = document.getElementById('alertBox');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const pwdInput = document.getElementById('password');
+    const signupBtn = document.getElementById('signupBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const fbBtn = document.getElementById('fbBtn');
+    const toLogin = document.getElementById('toLogin');
+
+    function showAlert({type='success', text=''}) {
+      alertBox.className = 'alert ' + (type==='error' ? 'error':'success');
+      alertBox.textContent = text;
+      alertBox.classList.add('show');
+      clearTimeout(window._alertTO);
+      window._alertTO = setTimeout(()=>alertBox.classList.remove('show'), 4500);
+    }
+
+    async function saveUserRecord(user, name) {
+      try {
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          username: name || user.displayName || user.email.split('@')[0],
+          email: user.email,
+          createdAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (err) { console.error('Error saving user:', err); }
+    }
+
+    signupBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const pwd = pwdInput.value;
+      if(!name) return showAlert({type:'error', text:'Enter your name'});
+      if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showAlert({type:'error', text:'Enter a valid email'});
+      if(!pwd || pwd.length<6) return showAlert({type:'error', text:'Password too short'});
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+        await saveUserRecord(cred.user, name);
+        showAlert({type:'success', text:`Welcome, ${name}!`});
+        setTimeout(()=>window.location.href='dashboard.html',1000);
+      } catch (err) {
+        showAlert({type:'error', text: err.message || 'Signup failed'});
+      }
+    });
+
+    googleBtn.addEventListener('click', async ()=>{
+      const provider = new GoogleAuthProvider();
+      try{
+        const result = await signInWithPopup(auth, provider);
+        await saveUserRecord(result.user, result.user.displayName);
+        showAlert({type:'success', text:`Welcome ${result.user.displayName}`});
+        setTimeout(()=>window.location.href='dashboard.html',1000);
+      }catch(err){ showAlert({type:'error', text: err.message}); }
+    });
+
+    fbBtn.addEventListener('click', async ()=>{
+      const provider = new FacebookAuthProvider();
+      try{
+        const result = await signInWithPopup(auth, provider);
+        await saveUserRecord(result.user, result.user.displayName);
+        showAlert({type:'success', text:`Welcome ${result.user.displayName}`});
+        setTimeout(()=>window.location.href='dashboard.html',1000);
+      }catch(err){ showAlert({type:'error', text: err.message}); }
+    });
+
+    toLogin.addEventListener('click', ()=> window.location.href='login.html');
+  </script>
+  <script type="module">
+import { auth } from "./firebase-config.js";
+import { createUserWithEmailAndPassword, updateProfile } 
+  from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+const signupForm = document.getElementById("signup-form");
+if (signupForm) {
+  signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(userCred => {
+        return updateProfile(userCred.user, { displayName: name });
+      })
+      .then(() => {
+        alert("Account created successfully!");
+        window.location.href = "dashboard.html";
+      })
+      .catch(err => alert("Signup failed: " + err.message));
+  });
+}
+</script>
+</body>
+</html>

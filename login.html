@@ -1,0 +1,499 @@
+<!-- save as: login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Onet Emotia — Login</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --glass: rgba(255,255,255,0.06);
+      --accent: #00aaff;
+      --success: #2ecc71;
+      --danger: #ff6b6b;
+      --bg-start: linear-gradient(135deg,#ff9a9e 0%, #fad0c4 50%, #a18cd1 100%);
+      --ui-radius: 12px;
+      --card-bg: rgba(255,255,255,0.06);
+      --text: #eaf2ff;
+      --muted: rgba(255,255,255,0.7);
+      --glass-border: rgba(255,255,255,0.08);
+      --max-card-w: 520px;
+    }
+
+    /* Reset & base */
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html,body{ height:100%; }
+    body{
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      min-height:100vh;
+      color:var(--text);
+      background: var(--bg-start);
+      overflow:hidden;
+    }
+
+    /* Floating decorative shapes */
+    .floatie{
+      position:fixed;
+      pointer-events:none;
+      z-index:0;
+      filter: blur(36px);
+      opacity:0.14;
+      mix-blend-mode: screen;
+      animation: floaty 16s ease-in-out infinite;
+    }
+    .floatie.one{ width:420px; height:420px; border-radius:40%; left:-120px; top:120px; background: radial-gradient(circle,#00aaff,#6f5cff); }
+    .floatie.two{ width:320px; height:320px; border-radius:50%; right:-140px; top:40vh; background: radial-gradient(circle,#ff6b9a,#ffb65b); animation-duration:18s; }
+    .floatie.three{ width:220px; height:220px; border-radius:50%; left:40%; bottom:-60px; background: radial-gradient(circle,#7ad0ff,#b68bff); animation-duration:20s; }
+    @keyframes floaty{ 0%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-30px) rotate(8deg); } 100%{ transform: translateY(0) rotate(0deg); } }
+
+    /* Alert box */
+    .alert{
+      position:fixed; left:50%; top:20px; transform:translateX(-50%);
+      padding:12px 16px; border-radius:10px; min-width:280px;
+      display:flex; justify-content:center; align-items:center;
+      font-weight:700; letter-spacing:.2px; z-index:60;
+      opacity:0; pointer-events:none; transition:all .28s ease;
+    }
+    .alert.show{ opacity:1; pointer-events:auto; }
+    .alert.success{ background: linear-gradient(90deg,var(--success), #27b86a); color:#06210a; }
+    .alert.error{ background: linear-gradient(90deg,var(--danger), #ff4b4b); color:white; }
+
+    /* Newsletter container (first screen) */
+    #newsletter{
+      position:fixed; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      z-index:50; transition: opacity .6s ease, transform .6s ease; gap:18px;
+      padding:28px;
+      background: linear-gradient(135deg,#00c3ff,#ff1d76);
+      color:white;
+    }
+    #newsletter.hidden{ opacity:0; transform: translateY(-120%); pointer-events:none; }
+    #newsletter .card{
+      width:100%; max-width:var(--max-card-w);
+      background: rgba(255,255,255,0.06); border-radius:16px; padding:20px;
+      backdrop-filter: blur(8px); border:1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 60px rgba(2,30,60,0.12);
+    }
+    #newsletter h1{ font-size:36px; margin-bottom:6px; }
+    #newsletter p.lead{ font-size:16px; margin-bottom:8px; color:rgba(255,255,255,0.95); }
+
+    #newsletter .subscribe-row{ display:flex; gap:8px; margin-top:8px; align-items:center; }
+    #newsletter input[type="email"]{ flex:1; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:white; font-size:14px; }
+    #newsletter button{ padding:12px 18px; border-radius:10px; border:none; font-weight:700; cursor:pointer; background:linear-gradient(90deg,#ffef7a,#ffd65a); color:#08120a; }
+
+    #newsletter .small{ font-size:13px; opacity:0.95; color:rgba(255,255,255,0.95); }
+
+    /* Login panel (hidden below viewport until newsletter dismissed) */
+    #loginPanel{
+      position:fixed; inset:0; display:flex; justify-content:center; align-items:center;
+      z-index:40; transition: transform .7s cubic-bezier(.25,.8,.25,1);
+      transform: translateY(120%);
+    }
+    #loginPanel.show{ transform: translateY(0); }
+
+    .loginCard{
+      width:100%; max-width:var(--max-card-w);
+      background: rgba(4,6,12,0.08); padding:24px; border-radius:14px;
+      backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 18px 50px rgba(2,30,60,0.12);
+    }
+
+    .loginCard h2{ font-size:28px; margin-bottom:4px; color:var(--text); }
+    .loginCard p.sub{ color:var(--muted); margin-bottom:12px; }
+
+    .inputField{ display:flex; gap:8px; align-items:center; background: rgba(255,255,255,0.04); padding:10px; border-radius:10px; border:1px solid var(--glass-border); }
+    .inputField input{ background:transparent; border:none; outline:none; color:var(--text); width:100%; font-size:14px; }
+    .inputField:focus-within{ box-shadow:0 6px 20px rgba(0,122,255,0.08); border-color: rgba(0,122,255,0.14); }
+
+    .controls{ display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:8px; }
+    .controls .left{ display:flex; gap:8px; align-items:center; }
+
+    .btn{ border:none; cursor:pointer; border-radius:10px; font-weight:700; padding:10px 12px; transition:transform .16s ease; }
+    .btn:active{ transform:translateY(1px); }
+    .btn.email{ background: linear-gradient(90deg,#00aaff,#6f5cff); color:#001523; }
+    .btn.google{ background: linear-gradient(90deg,#fff,#f2f2f2); color:#222; display:flex; gap:8px; align-items:center; padding:10px 12px; }
+    .btn.fb{ background: linear-gradient(90deg,#1877f2,#0b66d6); color:white; display:flex; gap:8px; align-items:center; padding:10px 12px; }
+
+    .row{ display:flex; gap:10px; align-items:center; }
+    .link{ text-decoration:underline; cursor:pointer; color:var(--text); font-weight:600; }
+
+    /* small responsive */
+    @media (max-width:640px){
+      #newsletter h1{ font-size:28px; }
+      .loginCard{ padding:18px; }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- floaties -->
+  <div class="floatie one"></div>
+  <div class="floatie two"></div>
+  <div class="floatie three"></div>
+
+  <!-- top-center alert -->
+  <div id="alertBox" class="alert" role="status" aria-live="polite"></div>
+
+  <!-- NEWSLETTER (first screen) -->
+  <section id="newsletter" aria-label="Newsletter and intro">
+    <div class="card" style="width:100%; max-width:900px; display:flex; gap:18px; align-items:center; justify-content:space-between;">
+      <div style="flex:1; padding-right:12px;">
+        <h1>Onet Emotia</h1>
+        <p class="lead small">Join the waitlist — get early access and emotional features. We'll only use your email to keep you updated.</p>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <input id="newsletterEmail" type="email" placeholder="Your email address" aria-label="newsletter email" style="flex:1; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); color:white;">
+          <button id="subscribeBtn" style="padding:10px 14px; border-radius:10px; border:none; background:linear-gradient(90deg,#ffd93d,#ff9a00); cursor:pointer; font-weight:800;">Subscribe</button>
+        </div>
+        <div style="margin-top:8px; color:rgba(255,255,255,0.9); font-size:13px;">Already a member? <span id="skipNewsletter" class="link" style="color:white; font-weight:700">Sign in</span></div>
+      </div>
+
+      <div style="width:320px; text-align:center;">
+        <div style="font-size:64px; margin-bottom:8px;">💬</div>
+        <div style="font-weight:700; font-size:18px;">Feel the network</div>
+        <div style="margin-top:8px; color:rgba(255,255,255,0.9); font-size:13px;">Subscribe to get a free emotional starter pack</div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px; display:flex; gap:12px;">
+      <button id="showLogin" style="padding:12px 22px; border-radius:12px; border:none; background:transparent; color:white; font-weight:800; border:1px solid rgba(255,255,255,0.12);">Sign In / Continue</button>
+      <button id="learnBtn" style="padding:12px 22px; border-radius:12px; border:none; background:rgba(255,255,255,0.08); color:white;">Learn more</button>
+    </div>
+  </section>
+
+  <!-- LOGIN PANEL -->
+  <section id="loginPanel" aria-hidden="true">
+    <div class="loginCard" role="form" aria-label="Authentication">
+      <h2>Welcome back</h2>
+      <p class="sub">Sign in to continue to your Emotia dashboard</p>
+
+      <div class="inputField" style="margin-bottom:8px;">
+        <svg style="width:18px;height:18px;opacity:0.9" viewBox="0 0 24 24" fill="none"><path d="M3 8.5v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <input id="email" type="email" placeholder="Email" autocomplete="email" />
+      </div>
+
+      <div class="inputField" style="margin-bottom:6px;">
+        <svg style="width:18px;height:18px;opacity:0.9" viewBox="0 0 24 24" fill="none"><path d="M12 15v2m-4-2v2m8-2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+        <div id="togglePwd" style="cursor:pointer; padding:6px;">👁️</div>
+      </div>
+
+      <div class="controls">
+        <div class="left">
+          <label style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="remember"> <span style="font-weight:700; color:var(--muted);">Remember</span></label>
+        </div>
+        <div class="right"><span id="forgot" class="link">Forgot?</span></div>
+      </div>
+
+      <div style="margin-top:8px;">
+        <button id="emailBtn" class="btn email" style="width:100%; font-size:15px;">Sign in with email</button>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button id="googleBtn" class="btn google" style="flex:1;">
+          <svg width="18" height="18" viewBox="0 0 533.5 544.3"><path fill="#4285f4" d="M533.5 278.4c0-18.6-1.6-33.3-5.1-47.9H272v90.7h146.9c-2.9 23.6-19.5 62.2-52.4 86.3l.5 3.3 75.9 58.9 5.2.5c47.4-44.1 75.4-108 75.4-191.8z"/></svg>
+          Continue with Google
+        </button>
+        <button id="fbBtn" class="btn fb" style="flex:1;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.5 9.9v-7H8.1v-3h2.4V9.1c0-2.4 1.4-3.7 3.5-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.6.8-1.6 1.6v1.9h2.7l-.4 3h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+          Facebook
+        </button>
+      </div>
+
+      <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+        <div>Don't have an account? <span id="signupLink" class="link">Sign Up</span></div>
+        <div>Read our <span id="Terms" class="link">T&C</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Firebase + App logic (newsletter integrated) -->
+  <script type="module">
+    /**************************
+     * Firebase imports & init
+     **************************/
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signInWithPopup,
+      GoogleAuthProvider,
+      FacebookAuthProvider,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      collection,
+      query,
+      where,
+      getDocs,
+      addDoc
+    } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhB9pqVXV4L59T1OggGMz75ExohoU255g",
+      authDomain: "onet-emotia.firebaseapp.com",
+      projectId: "onet-emotia",
+      storageBucket: "onet-emotia.firebasestorage.app",
+      messagingSenderId: "887367384521",
+      appId: "1:887367384521:web:6312bb8d0d51f0da8e7c18",
+      measurementId: "G-VX4KB7LCTR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    /**************************
+     * DOM refs
+     **************************/
+    const alertBox = document.getElementById('alertBox');
+    const newsletterEl = document.getElementById('newsletter');
+    const newsletterEmail = document.getElementById('newsletterEmail');
+    const subscribeBtn = document.getElementById('subscribeBtn');
+    const skipNewsletter = document.getElementById('skipNewsletter');
+    const showLogin = document.getElementById('showLogin');
+    const loginPanel = document.getElementById('loginPanel');
+    const emailInput = document.getElementById('email');
+    const pwdInput = document.getElementById('password');
+    const emailBtn = document.getElementById('emailBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const fbBtn = document.getElementById('fbBtn');
+    const togglePwd = document.getElementById('togglePwd');
+    const signupLink = document.getElementById('signupLink');
+    const Terms = document.getElementById('Terms');
+    const forgot = document.getElementById('forgot');
+
+    /**************************
+     * small UI helpers
+     **************************/
+    function showAlert({ type='success', text='' }){
+      alertBox.className = 'alert ' + (type === 'error' ? 'error' : 'success') + ' show';
+      alertBox.textContent = text;
+      clearTimeout(window._alertTO);
+      window._alertTO = setTimeout(()=> { alertBox.classList.remove('show'); }, type === 'error' ? 5200 : 3200);
+    }
+
+    function setLoading(btn, isLoading){
+      if(!btn) return;
+      if(isLoading){
+        btn.dataset.orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Working...';
+        btn.style.opacity = 0.85;
+      } else {
+        btn.disabled = false;
+        if(btn.dataset.orig) btn.innerHTML = btn.dataset.orig;
+        btn.style.opacity = '';
+      }
+    }
+
+    function validateEmail(email){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    /**************************
+     * Newsletter subscription logic (stores in 'newsletter' collection)
+     **************************/
+    subscribeBtn.addEventListener('click', async (ev) => {
+      ev.preventDefault();
+      const email = (newsletterEmail.value || '').trim().toLowerCase();
+      if(!validateEmail(email)){
+        showAlert({ type:'error', text:'Enter a valid email to subscribe.' });
+        return;
+      }
+      setLoading(subscribeBtn, true);
+      try{
+        // check if already subscribed
+        const col = collection(db, 'newsletter');
+        const q = query(col, where('email', '==', email));
+        const snaps = await getDocs(q);
+        if(!snaps.empty){
+          showAlert({ type:'success', text:'You are already subscribed — thanks!' });
+        } else {
+          // add subscription
+          await addDoc(collection(db, 'newsletter'), {
+            email,
+            createdAt: new Date().toISOString(),
+            source: 'login-newsletter'
+          });
+          showAlert({ type:'success', text:'Subscribed! We will send updates to your inbox.' });
+        }
+        // After subscribe, hide newsletter and show login
+        setTimeout(()=> {
+          newsletterEl.classList.add('hidden');
+          loginPanel.classList.add('show');
+        }, 450);
+      }catch(err){
+        console.error('subscribe failed', err);
+        showAlert({ type:'error', text:'Subscription failed — try again.' });
+      } finally {
+        setLoading(subscribeBtn, false);
+      }
+    });
+
+    // Skip newsletter and go to login
+    skipNewsletter.addEventListener('click', ()=> {
+      newsletterEl.classList.add('hidden');
+      loginPanel.classList.add('show');
+    });
+
+    // Also "Sign In / Continue" button
+    showLogin.addEventListener('click', ()=> {
+      newsletterEl.classList.add('hidden');
+      loginPanel.classList.add('show');
+    });
+
+    // Optional "Learn more" (keeps newsletter open but can be wired to modal)
+    document.getElementById('learnBtn').addEventListener('click', ()=> {
+      showAlert({ type:'success', text:'Feature coming: emotional starter pack preview.'});
+    });
+
+    /**************************
+     * Auth helpers (same as before)
+     **************************/
+    function friendlyMessage(err){
+      if(!err) return 'Unknown error';
+      const code = err.code || '';
+      if(code.includes('auth/user-not-found')) return 'No account found for that email.';
+      if(code.includes('auth/wrong-password')) return 'Wrong password — try again.';
+      if(code.includes('auth/popup-closed-by-user')) return 'Auth popup closed — try again.';
+      if(code.includes('auth/network-request-failed')) return 'Network error — check connection.';
+      if(code.includes('auth/account-exists-with-different-credential')) return 'An account with this email exists with other sign-in method.';
+      return err.message || String(err);
+    }
+
+    async function saveUserRecord(user){
+      if(!user?.uid) return;
+      try{
+        const uref = doc(db, 'users', user.uid);
+        await setDoc(uref, {
+          uid: user.uid,
+          username: user.displayName || user.email?.split('@')[0] || 'Anonymous',
+          email: user.email || null,
+          lastActive: new Date().toISOString()
+        }, { merge: true });
+      }catch(e){ console.error('save user failed', e); }
+    }
+
+    function redirectToDashboard(){
+  setTimeout(()=> { window.location.href = 'dashboard/dashboard.html'; }, 700);
+}
+
+    // Toggle password visibility
+    togglePwd.addEventListener('click', ()=> {
+      pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
+      togglePwd.textContent = pwdInput.type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Google sign-in
+    googleBtn.addEventListener('click', async (ev)=> {
+      ev.preventDefault();
+      try{
+        setLoading(googleBtn, true);
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        await saveUserRecord(result.user);
+        showAlert({ type:'success', text:`Welcome ${result.user.displayName || result.user.email}` });
+        redirectToDashboard();
+      }catch(err){
+        console.error('google err', err);
+        showAlert({ type:'error', text: friendlyMessage(err) });
+      }finally{ setLoading(googleBtn, false); }
+    });
+
+    // Facebook sign-in
+    fbBtn.addEventListener('click', async (ev)=> {
+      ev.preventDefault();
+      try{
+        setLoading(fbBtn, true);
+        const provider = new FacebookAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        await saveUserRecord(result.user);
+        showAlert({ type:'success', text:`Welcome ${result.user.displayName || result.user.email}` });
+        redirectToDashboard();
+      }catch(err){
+        console.error('fb err', err);
+        showAlert({ type:'error', text: friendlyMessage(err) });
+      }finally{ setLoading(fbBtn, false); }
+    });
+
+    // Email/password
+    emailBtn.addEventListener('click', async (ev)=> {
+      ev.preventDefault();
+      const email = (emailInput.value || '').trim().toLowerCase();
+      const password = pwdInput.value || '';
+      if(!validateEmail(email)){ showAlert({ type:'error', text:'Please enter a valid email.' }); return; }
+      if(!password || password.length < 6){ showAlert({ type:'error', text:'Password should be at least 6 characters.' }); return; }
+      try{
+        setLoading(emailBtn, true);
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        await saveUserRecord(cred.user);
+        showAlert({ type:'success', text:`Welcome ${cred.user.displayName || cred.user.email}` });
+        redirectToDashboard();
+      }catch(err){
+        console.error('email sign-in err', err);
+        showAlert({ type:'error', text: friendlyMessage(err) });
+      } finally {
+        setLoading(emailBtn, false);
+      }
+    });
+
+    // Keyboard: enter submits when on password
+    pwdInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') emailBtn.click(); });
+    emailInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') pwdInput.focus(); });
+
+    signupLink.addEventListener('click', ()=> { window.location.href = 'signup.html'; });
+    Terms.addEventListener('click', ()=> { window.location.href = 'Terms.html'; });
+    forgot.addEventListener('click', ()=> { showAlert({ type:'error', text:'Password reset: use the Signup page flow.' }); });
+
+    // If user already signed in, redirect
+    onAuthStateChanged(auth, (user)=> {
+      if(user) redirectToDashboard();
+    });
+
+    // Auto-apply saved theme (optional)
+    (function applySavedTheme(){
+      const saved = localStorage.getItem('emotiaTheme');
+      if(saved) document.body.classList.add(saved);
+    })();
+
+  </script>
+  <script type="module">
+import { auth, googleProvider, facebookProvider } from "./firebase-config.js";
+import { signInWithEmailAndPassword, signInWithPopup } 
+  from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+// --- Email/Password Login ---
+const loginForm = document.getElementById("login-form");
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => window.location.href = "../dashboard/dashboard.html")
+      .catch(err => alert("Login failed: " + err.message));
+  });
+}
+
+// --- Google Login ---
+document.getElementById("google-login").addEventListener("click", () => {
+  signInWithPopup(auth, googleProvider)
+    .then(() => window.location.href = "dashboard.html")
+    .catch(err => alert("Google sign-in error: " + err.message));
+});
+
+// --- Facebook Login ---
+document.getElementById("facebook-login").addEventListener("click", () => {
+  signInWithPopup(auth, facebookProvider)
+    .then(() => window.location.href = "dashboard.html")
+    .catch(err => alert("Facebook sign-in error: " + err.message));
+});
+</script>
+</body>
+</html>

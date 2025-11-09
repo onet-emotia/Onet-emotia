@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and Conditions | Onet Emotia</title>
+
+  <style>
+    :root {
+      --accent: #00aaff;
+      --bg-start: linear-gradient(135deg,#ff9a9e 0%, #fad0c4 50%, #a18cd1 100%);
+      --text: #eaf2ff;
+      --muted: rgba(255,255,255,0.7);
+      --footer-glow: rgba(0,170,255,0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg-start);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px;
+      color: purple;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .btn {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      background: linear-gradient(90deg,#00aaff,#6f5cff);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,170,255,0.4);
+      backdrop-filter: blur(4px);
+      transition: 0.3s ease;
+      z-index: 100;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0,170,255,0.6);
+    }
+
+    .container1 {
+      background: rgba(255, 0, 255, 0.06);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      margin: 120px auto 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(25,0,155,0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    .container1 h1 {
+      color: red;
+      text-shadow: 0 0 5px rgba(255,0,0,0.6);
+    }
+
+    .terms-section {
+      background: rgba(255,255,255,0.1);
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 700px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 0.8s ease-out;
+    }
+
+    .terms-section.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .terms-section.hide-right {
+      opacity: 0;
+      transform: translateX(200px);
+      transition: all 0.6s ease-in;
+    }
+
+    .terms-section.hide-left {
+      opacity: 0;
+      transform: translateX(-200px);
+      transition: all 0.6s ease-in;
+    }
+
+    footer {
+      background: rgba(5,5,7,0.8);
+      color: var(--muted);
+      padding: 25px 0;
+      text-align: center;
+      margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -4px 20px var(--footer-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(0,170,255,0.2) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    footer p, .social-links {
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-links {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 10px;
+    }
+
+    .social-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .social-links a:hover {
+      text-shadow: 0 0 8px var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+  <button id="back" class="btn">BACK</button>
+
+  <div class="container1">
+    <h1>Terms and Conditions <strong>(T&C)</strong></h1>
+  </div>
+
+  <!-- Terms Sections -->
+  <section class="terms-section">
+    <h2>1. Acceptance of Terms</h2>
+    <p>By using Onet Emotia, you agree to these Terms and our Privacy Policy. You must be at least 13 years old to use this service.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>2. Use of the Platform</h2>
+    <p>You agree to use Emotia lawfully, avoid spam, hate speech, or system manipulation. We reserve the right to suspend violators.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>3. User Accounts</h2>
+    <p>Keep your credentials safe. You're responsible for all activity under your account. Notify us immediately if your account is compromised.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>4. Emotional Data and AI Interaction</h2>
+    <p>Emotia uses AI-driven emotional analysis to enhance experiences. Your emotional data is processed ethically by AYA-O. We do not sell your data.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>5. Content Ownership</h2>
+    <p>You own your content, but grant Emotia permission to display and distribute it for platform operation.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>6. Intellectual Property</h2>
+    <p>All Emotia and O’REL assets — including software and branding — belong to O’REL Labs. Unauthorized use is prohibited.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>7. Third-Party Links</h2>
+    <p>We’re not responsible for third-party websites linked on Emotia. Use them at your own risk.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>8. Limitation of Liability</h2>
+    <p>O’REL Labs is not liable for damages or data loss. Emotia is provided “as is.”</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>9. Termination</h2>
+    <p>We may suspend or terminate accounts that violate our rules or harm the community.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>10. Updates to Terms</h2>
+    <p>We may modify these Terms at any time. Continued use after updates means acceptance.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>11. Governing Law</h2>
+    <p>These Terms follow the laws of the Federal Republic of Nigeria.</p>
+  </section>
+
+  <section class="terms-section">
+    <h2>12. Contact Information</h2>
+    <p>Email: legal@orel-labs.com <br> Website: www.orel-labs.com</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Onet Emotia | Powered by O’REL Labs</p>
+    <ul class="social-links">
+      <li><a href="#">Twitter</a></li>
+      <li><a href="#">Discord</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="https://m.facebook.com/">Facebook</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Back button
+    document.getElementById('back').addEventListener('click', () => {
+      window.location.href = 'login.html';
+    });
+
+    // Scroll animation for sections
+    const sections = document.querySelectorAll('.terms-section');
+    let lastScrollTop = 0;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const section = entry.target;
+        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollingDown = currentScrollTop > lastScrollTop;
+        lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+
+        if (entry.isIntersecting) {
+          section.classList.add('visible');
+          section.classList.remove('hide-left', 'hide-right');
+        } else {
+          section.classList.remove('visible');
+          if (scrollingDown) {
+            section.classList.add('hide-right');
+          } else {
+            section.classList.add('hide-left');
+          }
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>
